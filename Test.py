@@ -4,6 +4,9 @@ import eyed3
 import os
 
 
+def musicNameSort(music_name):
+    pass
+
 
 def get_voice_time_secs(file_name):
     """
@@ -23,6 +26,9 @@ def get_voice_time_secs(file_name):
     return secs
 
 file_name = "C:\\Users\\tlq\\Desktop\\music\\起风了.mp3"
+music_names = ['一笑江湖', '哪里都是你', '孤勇者', '起灵', '起风了', '这世界那么多人']
 
 if __name__ == "__main__":
-    print(get_voice_time_secs(file_name))
+    # print(get_voice_time_secs(file_name))
+    musicNameSort(music_names)
+    print(music_names)

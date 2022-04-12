@@ -36,6 +36,26 @@ class MyWindow(QWidget):
         # 音量控制滑块
         self.sl_volume = MySlider(self, 320, 26, 50, 150, 25, 1, 0, 100, Qt.Horizontal, "self.changeVolume")
 
+        self.le_query = QLineEdit(self)
+        self.le_query.move(50, 400)
+        self.le_query.resize(300, 50)
+        # self.le_query.setText("请输入你想要查询的歌曲")
+        self.le_query.setPlaceholderText("请输入你想要查询的歌曲")
+        def querry():
+            query_name = c.w.le_query.text()
+            list = []
+            for music_name in [s.split('/')[-1][0:-4] for s in c.music.musics]:
+                if query_name in music_name:
+                    list.append(music_name)
+            self.bt_add_files.mylist.setQueryContent(list)
+        self.le_query.textChanged.connect(querry)
+
+        #查询按钮
+        self.bt_query_music = MyButton(self, "查询", 360, 408, "self.queryMusicByName")
+
+        self.q = QMdiSubWindow(self)
+        self.q.close()
+
 
 
 

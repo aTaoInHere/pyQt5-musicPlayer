@@ -31,4 +31,14 @@ class MyList(QListView):
         pass
 
     def doubleClickedPlay(self, item):
-        c.music.loadCurrMusic(item.row())
+        c.music.loadCurrMusic(byName=True, name=item.data())
+
+    def setQueryContent(self, qList: list):
+        '''
+        显示查询结果
+        :param qList: 查询内容
+        :return:
+        '''
+        self.slm.setStringList(qList)
+        self.setModel(self.slm)
+        self.show()

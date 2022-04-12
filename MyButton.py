@@ -80,3 +80,15 @@ class MyButton(QPushButton):
             c.music.prevMusic()
         except Exception:
             return
+
+    def queryMusicByName(self):
+        '''
+        按歌曲名查询
+        :return:
+        '''
+        query_name = c.w.le_query.text()
+        list = []
+        for music_name in [s.split('/')[-1][0:-4] for s in c.music.musics]:
+            if query_name in music_name:
+                list.append(music_name)
+        c.w.bt_add_files.mylist.setQueryContent(list)

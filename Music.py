@@ -51,6 +51,8 @@ class Music:
         self.timer.timeout.connect(c.music.nextMusic)
         # 计时结束调用c.music.nextMusic()方法 ->自动切歌，更换掉有逼格的线程检查
         self.music_time_label.startMyTimer(1000)  # 开启歌曲时长计时器
+        self.musics_name = [self.musics[i].split('/')[-1][0:-4] for i in range (self.len_musics)]#歌曲名
+        print(self.musics_name)
 
             
     def play(self, numOfMusic=1):
@@ -62,7 +64,7 @@ class Music:
         self.justPause = False
         # threading.Thread(target=self.checkMusicPlaying).start()
         if self.musics is not None and self.first_play:
-            self.music_name_label.setText('正在播放 {}'.format(self.musics[self.music_num % self.len_musics].split('/')[-1][0:-4]))
+            self.music_name_label.setText('正在播放 {}'.format(self.musics_name[self.music_num % self.len_musics]))
             print(self.musics[self.music_num % self.len_musics].split('/')[-1][0:-4])
             self.timer.start((self.music_time + 1) * 1000)  # 设置计时间隔并启动，结束自动调用nextMusic()
             #歌曲播放进度条
@@ -132,13 +134,22 @@ class Music:
                 if not pygame.mixer.music.get_busy() and not self.justPause:
                     c.music.nextMusic()
 
-    def loadCurrMusic(self, num: int=0, isPlay: bool=True):
+    def loadCurrMusic(self, num: int=0, isPlay: bool=True, byName: bool=False, name: str=''):
         '''
         加载当前音乐并播放
         :param num: 当前音乐序号
+        :param isPlay: 是否播放
+        :param byName:
+        :param name:
         :return:
         '''
-        self.music_num = num
+        # self.music_num = num if not byName else i for i in range(self.len_musics) if self.musics[i % self.len_musics] == name
+        if not byName:
+            self.music_num = num
+        else:
+            for i in range(self.len_musics):
+                if self.musics_name[i % self.len_musics] == name:
+                    self.music_num = num = i
         pygame.mixer.music.load(self.musics[num % self.len_musics].encode())
         #获取歌曲时长
         self.music_time = self.getVoiceTimeSecs(self.musics[num % self.len_musics].replace('/', '\\'))
